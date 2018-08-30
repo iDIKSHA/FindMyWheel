@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">FindMyWheel</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="title_activity_geofence">Geofence</string>
+    <string name="title_activity_maps_route">Path</string>
+    <string name="title_activity_main23">Main2Activity3</string>
+
+</resources>
