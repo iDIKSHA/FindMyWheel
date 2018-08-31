@@ -114,7 +114,7 @@ public class MainActivity extends AppCompatActivity{
         }, 123, new RequestPermissionHandler.RequestPermissionListener() {
             @Override
             public void onSuccess() {
-                Toast.makeText(MainActivity.this, "request permission success", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(MainActivity.this, "request permission success", Toast.LENGTH_SHORT).show();
                 isPermissionFlag = true;
             }
 

@@ -66,12 +66,12 @@ public class MapsActivityRoute extends AppCompatActivity implements OnMapReadyCa
     private GoogleMap mMap;
     private boolean isRouteAvailable;
     CoordinatorLayout coordinatorLayout;
-    Location l = new Location("l");
+    static Location to_location = new Location("to_location");
     private static final String TAG = MapsActivityRoute.class.getSimpleName();
 
-    protected static final int REQUEST_CHECK_SETTINGS=0x1;
+    protected static final int REQUEST_CHECK_SETTINGS = 0x1;
 
-    LatLng From, To;
+    static LatLng FROM_LOCATION, TO_LOCATION;
     ArrayList<AddressAndLocation> arrayList = new ArrayList<>();
     ArrayListHelper arrayListHelper;
     AddressAndLocation al;
@@ -121,31 +121,16 @@ public class MapsActivityRoute extends AppCompatActivity implements OnMapReadyCa
         locationListener = new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
-                if(isRouteAvailable) {
-                    float d = l.distanceTo(location);
-
-                    if (d <= 0) {
-                        float distInCM = d * 100;
-                        mTitleTextView.setText("You are " + String.format("%.0f", distInCM) + "cm away from this place");
-
-                    } else {
-                        mTitleTextView.setText("You are " + String.format("%.2f", d) + "m away from this place");
-                    }
-                    if (d < 5) {
-                        sendNotification();
-                    }
-                    if(d>1000){
-                        float distInKM = d / 1000;
-                        mTitleTextView.setText("You are " + String.format("%.2f", distInKM) + "km away from this place");
-                    }
-                }
+                setMessage(location);
             }
 
             @Override
-            public void onStatusChanged(String provider, int status, Bundle extras) {}
+            public void onStatusChanged(String provider, int status, Bundle extras) {
+            }
 
             @Override
-            public void onProviderEnabled(String provider) {}
+            public void onProviderEnabled(String provider) {
+            }
 
             @Override
             public void onProviderDisabled(String provider) {
@@ -155,47 +140,48 @@ public class MapsActivityRoute extends AppCompatActivity implements OnMapReadyCa
 
         //obtain  Intent Object send  from SenderActivity
         Intent intent = this.getIntent();
-        if(intent !=null) {
+        if (intent != null) {
             String strdata = intent.getExtras().getString("Uniqid");
             if (strdata.equals("From_Activity_Main")) {
                 arrayList = arrayListHelper.getArray();
                 int x = arrayList.size();
                 if (arrayList != null) {
-                   // if (!(x == 0)) {
-                        Location to = arrayList.get(x - 1).getLocation();
-                        if (to != null) {
-                            latitude = to.getLatitude();
-                            longitude = to.getLongitude();
-                            To = new LatLng(latitude, longitude);
-                            l.setLatitude(latitude);
-                            l.setLongitude(longitude);
-                        }
+                    // if (!(x == 0)) {
+                    Location to = arrayList.get(x - 1).getLocation();
+                    if (to != null) {
+                        latitude = to.getLatitude();
+                        longitude = to.getLongitude();
+                        TO_LOCATION = new LatLng(latitude, longitude);
+                        to_location.setLatitude(latitude);
+                        to_location.setLongitude(longitude);
                     }
                 }
-                if (strdata.equals("From_Activity_Storage")) {
-                    latitude = intent.getDoubleExtra("lati", 0.0);
-                    longitude = intent.getDoubleExtra("longi", 0.0);
-                    To = new LatLng(latitude, longitude);
-                    l.setLatitude(latitude);
-                    l.setLongitude(longitude);
-                }
+            }
+            if (strdata.equals("From_Activity_Storage")) {
+                latitude = intent.getDoubleExtra("lati", 0.0);
+                longitude = intent.getDoubleExtra("longi", 0.0);
+                TO_LOCATION = new LatLng(latitude, longitude);
+                to_location.setLatitude(latitude);
+                to_location.setLongitude(longitude);
+            }
 
         }
 
     }
 
-    public String getEmojiByUnicode(int unicode){
+    public String getEmojiByUnicode(int unicode) {
         return new String(Character.toChars(unicode));
     }
+
     public void sendNotification() {
-        int laughing = 0x1F604	;
-        int dancing_girlUnicode=0x1F483;
-        int eyes_unicode= 0x1F440;
+        int laughing = 0x1F604;
+        int dancing_girlUnicode = 0x1F483;
+        int eyes_unicode = 0x1F440;
         String emoji = getEmojiByUnicode(laughing);
         String dancing_girl = getEmojiByUnicode(dancing_girlUnicode);
         String eyes = getEmojiByUnicode(eyes_unicode);
         //Get an instance of NotificationManager//
-        String text="You seem to be approaching!"+dancing_girl+'\n'+"Just a little eyeballing"+eyes+emoji;
+        String text = "You seem to be approaching!" + dancing_girl + '\n' + "Just a little eyeballing" + eyes + emoji;
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(this)
                         .setSmallIcon(R.mipmap.ic_launcher)
@@ -234,7 +220,6 @@ public class MapsActivityRoute extends AppCompatActivity implements OnMapReadyCa
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        //mMap.addMarker(new MarkerOptions().position(To).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));//.icon(BitmapDescriptorFactory.fromResource(R.drawable.destination)));
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 requestPermissions(new String[]{
@@ -257,41 +242,63 @@ public class MapsActivityRoute extends AppCompatActivity implements OnMapReadyCa
         });*/
 
         // and next place it, for exemple, on bottom right (as Google Maps app)
-        RelativeLayout.LayoutParams rlp = (RelativeLayout.LayoutParams)locationButton.getLayoutParams();
+        RelativeLayout.LayoutParams rlp = (RelativeLayout.LayoutParams) locationButton.getLayoutParams();
         // position on right bottom
         rlp.addRule(RelativeLayout.ALIGN_PARENT_TOP, 1);
         rlp.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
-        markerForVehicle(To);
+        markerForVehicle(TO_LOCATION);
         setupMap();
     }
+
     @Override
     protected void onPause() {
         super.onPause();
-         locationManager.removeUpdates(locationListener);
+        locationManager.removeUpdates(locationListener);
     }
+
     private void markerForVehicle(LatLng vehicleLatLng) {
         // Define marker options
         MarkerOptions markerOptions = new MarkerOptions()
                 .position(vehicleLatLng)
                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
-       // float zoom = 22f;
-       // mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(vehicleLatLng, zoom));
         mMap.addMarker(markerOptions);
     }
 
     private void setupMap() {
         Location loc = getCurrentLocation(this);
-        if(loc!= null) {
+        if (loc != null) {
 //            locationManager.requestLocationUpdates("gps", 0, 0, locationListener);
             //Toast.makeText(this,"Location not null",Toast.LENGTH_LONG).show();
             LatLng currentLocation = new LatLng(loc.getLatitude(), loc.getLongitude());
-            From = currentLocation;
+            FROM_LOCATION = currentLocation;
             mMap.addMarker(new MarkerOptions().position(currentLocation).title("Marker in " + currentLocation));
             mMap.moveCamera(CameraUpdateFactory.newLatLng(currentLocation));
             //mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 12));
             drawNow();
-        }else{
-            Toast.makeText(this,"Location : NULL",Toast.LENGTH_LONG).show();
+            setMessage(loc);
+        } else {
+            Toast.makeText(this, "Location : NULL", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private void setMessage(Location location) {
+        if (isRouteAvailable) {
+            float d = to_location.distanceTo(location);
+
+            if (d <= 0) {
+                float distInCM = d * 100;
+                mTitleTextView.setText("You are " + String.format("%.0f", distInCM) + "cm away from this place");
+
+            } else {
+                mTitleTextView.setText("You are " + String.format("%.2f", d) + "m away from this place");
+            }
+            if (d < 5) {
+                sendNotification();
+            }
+            if (d > 1000) {
+                float distInKM = d / 1000;
+                mTitleTextView.setText("You are " + String.format("%.2f", distInKM) + "km away from this place");
+            }
         }
     }
 
@@ -305,8 +312,8 @@ public class MapsActivityRoute extends AppCompatActivity implements OnMapReadyCa
                 location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
                 // Location is always null on S7 (only)
                 //  Log.i(TAG, ">>> getLastKnownLocationObject() getLastKnownLocation: " + location);+
-                if(location != null)
-                Log.e("LLOOCCAATTIIOONN::::: ",""+location.getLongitude() + "LATITUDE: "+ location.getLatitude());
+                if (location != null)
+                    Log.e("LLOOCCAATTIIOONN::::: ", "" + location.getLongitude() + "LATITUDE: " + location.getLatitude());
 //                return location;
             }
         } catch (Exception e) {
@@ -317,13 +324,13 @@ public class MapsActivityRoute extends AppCompatActivity implements OnMapReadyCa
 
     private void drawNow() {
 
-            // Getting URL to the Google Directions API
-            String url = getDirectionsUrl(From, To);
+        // Getting URL to the Google Directions API
+        String url = getDirectionsUrl(FROM_LOCATION, TO_LOCATION);
 
-            DownloadTask downloadTask = new DownloadTask();
+        DownloadTask downloadTask = new DownloadTask();
 
-            // Start downloading json data from Google Directions API
-            downloadTask.execute(url);
+        // Start downloading json data from Google Directions API
+        downloadTask.execute(url);
         //}
     }
 
@@ -451,14 +458,14 @@ public class MapsActivityRoute extends AppCompatActivity implements OnMapReadyCa
 
             }
 
-            if(lineOptions!=null) {
-                isRouteAvailable=true;
+            if (lineOptions != null) {
+                isRouteAvailable = true;
 // Drawing polyline in the Google Map for the i-th route
                 mMap.addPolyline(lineOptions);
-                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(From, 12));
-            }else {
-                isRouteAvailable=false;
-                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(To, 3));
+                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(FROM_LOCATION, 12));
+            } else {
+                isRouteAvailable = false;
+                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(TO_LOCATION, 3));
                 setSnackBar(coordinatorLayout, "No Route Found", 2);
             }
         }
