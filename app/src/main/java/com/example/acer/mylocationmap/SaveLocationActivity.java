@@ -38,7 +38,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class Maps2Activity extends FragmentActivity implements OnMapReadyCallback, android.location.LocationListener {
+public class SaveLocationActivity extends FragmentActivity implements OnMapReadyCallback, android.location.LocationListener {
 
     private GoogleMap mMap;
     LocationManager lm;

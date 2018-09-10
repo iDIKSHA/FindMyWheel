@@ -1,8 +1,12 @@
 <resources>
     <string name="app_name">FindMyWheel</string>
+    <string name="app_version">Version 1.0</string>
     <string name="title_activity_maps">Map</string>
     <string name="title_activity_geofence">Geofence</string>
     <string name="title_activity_maps_route">Path</string>
     <string name="title_activity_main23">Main2Activity3</string>
+    <string name="title_activity_faq">FAQ</string>
+    <string name="title_activity_places">Places Visited</string>
+    <string name="title_activity_save_location">Save Location</string>
 
 </resources>

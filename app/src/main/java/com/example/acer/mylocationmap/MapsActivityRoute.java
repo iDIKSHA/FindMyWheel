@@ -166,7 +166,7 @@ public class MapsActivityRoute extends AppCompatActivity implements OnMapReadyCa
             }
 
         }
-
+        locationManager.requestLocationUpdates("gps", 0, 0, locationListener);
     }
 
     public String getEmojiByUnicode(int unicode) {
@@ -303,7 +303,7 @@ public class MapsActivityRoute extends AppCompatActivity implements OnMapReadyCa
     }
 
 
-    private Location getCurrentLocation(Context context) {
+    private Location  getCurrentLocation(Context context) {
         LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
         Location location = null;
         try {

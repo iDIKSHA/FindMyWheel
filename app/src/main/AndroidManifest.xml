@@ -10,7 +10,7 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
         android:allowBackup="true"
@@ -33,11 +33,11 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".Maps2Activity"
-            android:label="Save location" />
+            android:name=".SaveLocationActivity"
+            android:label="@string/title_activity_save_location" />
         <activity
             android:name=".DisplayStorageActivity"
-            android:label="Places visited" />
+            android:label="@string/title_activity_places" />
         `
         <activity android:name=".MainActivity">
             <intent-filter>
@@ -49,6 +49,12 @@
         <activity
             android:name=".MapsActivityRoute"
             android:label="@string/title_activity_maps_route" />
+        <activity
+            android:name=".AppInfo"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".HelpActivity" />
+        <activity android:name=".FAQ_activity"
+            android:label="@string/title_activity_faq"></activity>
     </application>
 
 </manifest>

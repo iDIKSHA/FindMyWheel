@@ -10,6 +10,7 @@ package com.example.acer.mylocationmap;
         import android.content.pm.ActivityInfo;
         import android.location.Location;
         import android.preference.PreferenceManager;
+        import android.support.annotation.NonNull;
         import android.support.v7.app.AppCompatActivity;
         import android.os.Bundle;
         import android.text.Html;
@@ -26,6 +27,9 @@ package com.example.acer.mylocationmap;
         import android.widget.TextView;
         import android.widget.Toast;
 
+        import com.google.android.gms.common.api.ResultCallback;
+        import com.google.android.gms.common.api.Status;
+        import com.google.android.gms.location.LocationServices;
         import com.google.gson.Gson;
         import com.google.gson.reflect.TypeToken;
 
@@ -201,5 +205,25 @@ public class DisplayStorageActivity extends AppCompatActivity {
         AlertDialog ad = alertBuilder.create();
         ad.show();
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.activity_main, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.help: {
+                Intent intent = new Intent(this, HelpActivity.class);
+                startActivity(intent);
+                break;
+            }
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 
 }

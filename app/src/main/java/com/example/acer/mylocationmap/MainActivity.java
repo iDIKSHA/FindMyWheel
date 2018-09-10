@@ -2,75 +2,38 @@ package com.example.acer.mylocationmap;
 
         import android.Manifest;
         import android.annotation.TargetApi;
-        import android.app.AlertDialog;
-        import android.app.PendingIntent;
         import android.content.Context;
-        import android.content.DialogInterface;
         import android.content.Intent;
         import android.content.IntentSender;
-        import android.content.SharedPreferences;
         import android.content.pm.ActivityInfo;
-        import android.content.pm.PackageManager;
-        import android.location.Location;
-        import android.location.LocationListener;
         import android.location.LocationManager;
-        import android.net.Uri;
         import android.os.Build;
         import android.os.Bundle;
         import android.os.Handler;
-        import android.os.Message;
-        import android.os.Parcel;
-        import android.os.Parcelable;
-        import android.preference.PreferenceManager;
-        import android.provider.Settings;
         import android.support.annotation.NonNull;
-        import android.support.annotation.Nullable;
         import android.support.design.widget.CoordinatorLayout;
         import android.support.design.widget.FloatingActionButton;
         import android.support.design.widget.Snackbar;
-        import android.support.v4.app.ActivityCompat;
-        import android.support.v4.content.ContextCompat;
         import android.support.v7.app.AppCompatActivity;
         import android.util.Log;
-        import android.util.SparseArray;
         import android.view.Gravity;
-        import android.view.Menu;
-        import android.view.MenuItem;
         import android.view.View;
         import android.widget.Button;
-        import android.widget.ProgressBar;
         import android.widget.TextView;
         import android.widget.Toast;
 
-        import com.google.android.gms.common.ConnectionResult;
         import com.google.android.gms.common.api.GoogleApiClient;
         import com.google.android.gms.common.api.PendingResult;
         import com.google.android.gms.common.api.ResultCallback;
         import com.google.android.gms.common.api.Status;
-        import com.google.android.gms.location.ActivityRecognition;
         import com.google.android.gms.location.LocationRequest;
         import com.google.android.gms.location.LocationServices;
         import com.google.android.gms.location.LocationSettingsRequest;
         import com.google.android.gms.location.LocationSettingsResult;
         import com.google.android.gms.location.LocationSettingsStatusCodes;
-        import com.google.gson.Gson;
-  //      import com.vistrav.ask.Ask;
+        //      import com.vistrav.ask.Ask;
 
-        import org.json.JSONArray;
-        import org.json.JSONException;
-        import org.json.JSONObject;
-
-        import java.text.DateFormat;
         import java.util.ArrayList;
-        import java.util.Date;
-        import java.text.SimpleDateFormat;
-        import java.util.HashMap;
-        import java.util.LinkedHashMap;
-        import java.util.List;
-        import java.util.Map;
-
-        import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
-        import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 
 public class MainActivity extends AppCompatActivity{
 
@@ -183,7 +146,7 @@ public class MainActivity extends AppCompatActivity{
         rbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(getBaseContext(), Maps2Activity.class);
+                Intent i = new Intent(getBaseContext(), SaveLocationActivity.class);
                 startActivity(i);
             }
 
