@@ -1,4 +1,4 @@
-package com.example.acer.mylocationmap;
+package com.example.acer.findmywheel;
 
 import android.annotation.TargetApi;
 import android.app.Notification;
@@ -7,7 +7,6 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
-import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -22,7 +21,6 @@ import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.RelativeLayout;
@@ -59,7 +57,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import static com.example.acer.mylocationmap.MainActivity.setSnackBar;
+import static com.example.acer.findmywheel.MainActivity.setSnackBar;
 
 public class MapsActivityRoute extends AppCompatActivity implements OnMapReadyCallback {
 
@@ -303,7 +301,7 @@ public class MapsActivityRoute extends AppCompatActivity implements OnMapReadyCa
     }
 
 
-    private Location  getCurrentLocation(Context context) {
+    private Location getCurrentLocation(Context context) {
         LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
         Location location = null;
         try {

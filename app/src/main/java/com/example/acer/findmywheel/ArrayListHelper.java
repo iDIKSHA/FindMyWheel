@@ -1,8 +1,7 @@
-package com.example.acer.mylocationmap;
+package com.example.acer.findmywheel;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.location.Location;
 import android.preference.PreferenceManager;
 
 import com.google.gson.Gson;
@@ -23,11 +22,11 @@ public class ArrayListHelper {
         this.mContext = context;
     }
 
-    public ArrayList<AddressAndLocation> getArray(){
+    public ArrayList<AddressAndLocation> getArray() {
 
         SharedPreferences appSharedPrefs = PreferenceManager
                 .getDefaultSharedPreferences(mContext);
-        String jsonString = appSharedPrefs.getString("MyObject","");
+        String jsonString = appSharedPrefs.getString("MyObject", "");
 
         Gson gson = new Gson();
         Type listOfLocationType = new TypeToken<ArrayList<AddressAndLocation>>() {
@@ -36,7 +35,7 @@ public class ArrayListHelper {
         return arrayList;
     }
 
-    public void putArray(ArrayList<AddressAndLocation> array){
+    public void putArray(ArrayList<AddressAndLocation> array) {
         final SharedPreferences appSharedPrefs;
         appSharedPrefs = PreferenceManager.getDefaultSharedPreferences(mContext);
         // .getDefaultSharedPreferences();

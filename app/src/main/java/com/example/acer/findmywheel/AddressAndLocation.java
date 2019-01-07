@@ -1,4 +1,4 @@
-package com.example.acer.mylocationmap;
+package com.example.acer.findmywheel;
 
 import android.location.Location;
 
@@ -10,23 +10,23 @@ import org.json.JSONObject;
  */
 
 class AddressAndLocation {
-   private String addrs;
+    private String addrs;
     private Location location;
 
-    public AddressAndLocation(){
-        this.addrs="";
-        this.location= new Location("LOCATION");
+    public AddressAndLocation() {
+        this.addrs = "";
+        this.location = new Location("LOCATION");
     }
 
-    public String getAddrs(){
+    public String getAddrs() {
         return addrs;
     }
 
-    public Location getLocation(){
+    public Location getLocation() {
         return location;
     }
 
-    public void put(String s, Location l){
+    public void put(String s, Location l) {
         addrs = s;
         location = l;
     }

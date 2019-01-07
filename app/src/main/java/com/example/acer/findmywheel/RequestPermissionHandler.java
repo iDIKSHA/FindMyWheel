@@ -1,4 +1,4 @@
-package com.example.acer.mylocationmap;
+package com.example.acer.findmywheel;
 
 import android.app.Activity;
 import android.content.pm.PackageManager;

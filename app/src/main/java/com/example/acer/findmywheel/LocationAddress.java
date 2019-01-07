@@ -1,12 +1,12 @@
-package com.example.acer.mylocationmap;
+package com.example.acer.findmywheel;
 
 /**
  * Created by Acer on 08-Sep-17.
  */
- 
- //CREDIT: http://javapapers.com/android/android-get-address-with-street-name-city-for-location-with-geocoding/
- 
- 
+
+//CREDIT: http://javapapers.com/android/android-get-address-with-street-name-city-for-location-with-geocoding/
+
+
 import android.content.Context;
 import android.location.Address;
 import android.location.Geocoder;
@@ -38,10 +38,10 @@ public class LocationAddress {
                         for (int i = 0; i < address.getMaxAddressLineIndex(); i++) {
                             sb.append(address.getAddressLine(i)).append("\n");
                         }*/
-                      //  sb.append(address.getLocality()).append("\n");
-      //                  sb.append(address.getPostalCode()).append("\n");
-       //                 sb.append(address.getCountryName());
-                       // result = sb.toString();
+                        //  sb.append(address.getLocality()).append("\n");
+                        //                  sb.append(address.getPostalCode()).append("\n");
+                        //                 sb.append(address.getCountryName());
+                        // result = sb.toString();
                         result = addressList.get(0).getAddressLine(0);
                     }
                 } catch (IOException e) {
@@ -52,8 +52,8 @@ public class LocationAddress {
                     if (result != null) {
                         message.what = 1;
                         Bundle bundle = new Bundle();
-   //                     result = "Latitude: " + latitude +"\n" + " Longitude: " + longitude +
-   //                             "\n\nAddress:\n" + result;
+                        //                     result = "Latitude: " + latitude +"\n" + " Longitude: " + longitude +
+                        //                             "\n\nAddress:\n" + result;
                         bundle.putString("address", result);
                         bundle.putDouble("lati", latitude);
                         bundle.putDouble("longi", longitude);

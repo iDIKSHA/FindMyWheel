@@ -1,18 +1,14 @@
-package com.example.acer.mylocationmap;
+package com.example.acer.findmywheel;
 
-import android.*;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.location.Location;
-import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
-import android.preference.PreferenceManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
@@ -21,21 +17,14 @@ import android.util.SparseArray;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class SaveLocationActivity extends FragmentActivity implements OnMapReadyCallback, android.location.LocationListener {
@@ -57,7 +46,7 @@ public class SaveLocationActivity extends FragmentActivity implements OnMapReady
     protected void onCreate(Bundle savedInstanceState) {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_maps2);
+        setContentView(R.layout.activity_set_location_map);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -82,10 +71,10 @@ public class SaveLocationActivity extends FragmentActivity implements OnMapReady
         al = new AddressAndLocation();
         al.put(adrs_loc.getText().toString(), l);
         arraylist = arrayListHelper.getArray();
-        if(arraylist != null) {
+        if (arraylist != null) {
             arraylist.add(al);
             arrayListHelper.putArray(arraylist);
-        }else {
+        } else {
             arraylist = new ArrayList<AddressAndLocation>();
             arraylist.add(al);
             arrayListHelper.putArray(arraylist);
@@ -94,6 +83,7 @@ public class SaveLocationActivity extends FragmentActivity implements OnMapReady
         startActivity(i);
         finish();
     }
+
     /**
      * Manipulates the map once available.
      * This callback is triggered when the map is ready to be used.
@@ -121,7 +111,7 @@ public class SaveLocationActivity extends FragmentActivity implements OnMapReady
             l.setLatitude(currentLat);
             l.setLongitude(currentLong);
             adrs_loc.setText(stt);
-        }else{
+        } else {
             adrs_loc.setText("Tap on map to get precise position.");
         }
 
@@ -188,7 +178,7 @@ public class SaveLocationActivity extends FragmentActivity implements OnMapReady
             if (locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
                 Location location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
                 // Location is always null on S7 (only)
-              //  Log.i(TAG, ">>> getLastKnownLocationObject() getLastKnownLocation: " + location);
+                //  Log.i(TAG, ">>> getLastKnownLocationObject() getLastKnownLocation: " + location);
                 return location;
             }
         } catch (Exception e) {
@@ -203,36 +193,36 @@ public class SaveLocationActivity extends FragmentActivity implements OnMapReady
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) {    }
 
-                @Override
-                public void onProviderEnabled(String provider) {
+    @Override
+    public void onProviderEnabled(String provider) {
 
-                }
+    }
 
-                @Override
-                public void onProviderDisabled(String provider) {
+    @Override
+    public void onProviderDisabled(String provider) {
 
-                }
+    }
 
-                //http://javapapers.com/android/android-get-address-with-street-name-city-for-location-with-geocoding/
+    //http://javapapers.com/android/android-get-address-with-street-name-city-for-location-with-geocoding/
 
-                private class GeocoderHandler extends Handler {
-                    @Override
-                    public void handleMessage(Message message) {
-                        String locationAddress;
-                        double lt=0.0,ln=0.0;
-                        switch (message.what) {
-                            case 1:
-                                Bundle bundle = message.getData();
-                                locationAddress = bundle.getString("address");
-                                lt = bundle.getDouble("lati");
-                                ln = bundle.getDouble("longi");
-                                break;
-                            default:
-                                locationAddress = "";
-                        }
-                        st=locationAddress;
-                        putOnTextview(lt, ln, st);
-                    }
-                }
-
+    private class GeocoderHandler extends Handler {
+        @Override
+        public void handleMessage(Message message) {
+            String locationAddress;
+            double lt = 0.0, ln = 0.0;
+            switch (message.what) {
+                case 1:
+                    Bundle bundle = message.getData();
+                    locationAddress = bundle.getString("address");
+                    lt = bundle.getDouble("lati");
+                    ln = bundle.getDouble("longi");
+                    break;
+                default:
+                    locationAddress = "";
             }
+            st = locationAddress;
+            putOnTextview(lt, ln, st);
+        }
+    }
+
+}

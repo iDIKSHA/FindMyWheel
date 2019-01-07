@@ -1,61 +1,61 @@
-package com.example.acer.mylocationmap;
+package com.example.acer.findmywheel;
 
 
 
-        import android.app.AlertDialog;
-        import android.content.Context;
-        import android.content.DialogInterface;
-        import android.content.Intent;
-        import android.content.SharedPreferences;
-        import android.content.pm.ActivityInfo;
-        import android.location.Location;
-        import android.preference.PreferenceManager;
-        import android.support.annotation.NonNull;
-        import android.support.v7.app.AppCompatActivity;
-        import android.os.Bundle;
-        import android.text.Html;
-        import android.text.Spanned;
-        import android.util.SparseArray;
-        import android.view.ContextMenu;
-        import android.view.Menu;
-        import android.view.MenuItem;
-        import android.view.View;
-        import android.widget.AdapterView;
-        import android.widget.ArrayAdapter;
-        import android.widget.BaseAdapter;
-        import android.widget.ListView;
-        import android.widget.TextView;
-        import android.widget.Toast;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
+import android.location.Location;
+import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.text.Html;
+import android.text.Spanned;
+import android.util.SparseArray;
+import android.view.ContextMenu;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
+import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
-        import com.google.android.gms.common.api.ResultCallback;
-        import com.google.android.gms.common.api.Status;
-        import com.google.android.gms.location.LocationServices;
-        import com.google.gson.Gson;
-        import com.google.gson.reflect.TypeToken;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
+import com.google.android.gms.location.LocationServices;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
-        import org.json.JSONArray;
-        import org.json.JSONException;
-        import org.json.JSONObject;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-        import java.io.IOException;
-        import java.lang.reflect.Type;
-        import java.util.ArrayList;
-        import java.util.HashMap;
-        import java.util.LinkedHashMap;
-        import java.util.LinkedHashSet;
-        import java.util.List;
-        import java.util.Map;
-        import java.util.Set;
+import java.io.IOException;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class DisplayStorageActivity extends AppCompatActivity {
     private ListView lv;
     ArrayList<String> parked_addrs = new ArrayList<>();
     AddressAndLocation al = new AddressAndLocation();
-    double lati,longi;
+    double lati, longi;
     ArrayList<AddressAndLocation> arraylist = new ArrayList<>();
     ArrayListHelper arrayListHelper;
 
-    CharSequence menuItems[] = new CharSequence[] {"Share","Return to place","Delete"};//"Details",
+    CharSequence menuItems[] = new CharSequence[]{"Share", "Return to place", "Delete"};//"Details",
 
     @Override
     public boolean onSupportNavigateUp() {
@@ -72,17 +72,17 @@ public class DisplayStorageActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         arrayListHelper = new ArrayListHelper(this);
         String adrs;
-        arraylist= arrayListHelper.getArray();
-        if(arraylist!=null){
-           for(int i=0; i<arraylist.size();i++){
-                al=arraylist.get(i);
-                adrs=al.getAddrs();
+        arraylist = arrayListHelper.getArray();
+        if (arraylist != null) {
+            for (int i = 0; i < arraylist.size(); i++) {
+                al = arraylist.get(i);
+                adrs = al.getAddrs();
                 parked_addrs.add(adrs);
             }
             // This is the array adapter, it takes the context of the activity as a
             // first parameter, the type of list view as a second parameter and your
             // array as a third parameter.
-            lv=(ListView) findViewById(R.id.listview);
+            lv = (ListView) findViewById(R.id.listview);
             final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
                     this,
                     android.R.layout.simple_list_item_1,
@@ -92,7 +92,7 @@ public class DisplayStorageActivity extends AppCompatActivity {
                 @Override
                 public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                     String item_selected = ((TextView) view).getText().toString();
-                    dialogMenuItems(position,arrayAdapter, item_selected);
+                    dialogMenuItems(position, arrayAdapter, item_selected);
                     return false;
                 }
             });
@@ -106,19 +106,19 @@ public class DisplayStorageActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 // the user clicked on item[which]
-                switch (which){
-                    case 0:{
+                switch (which) {
+                    case 0: {
                         try {
-                            al=arraylist.get(position);
-                            lati= al.getLocation().getLatitude();
+                            al = arraylist.get(position);
+                            lati = al.getLocation().getLatitude();
                             longi = al.getLocation().getLongitude();
                             String url = "https://www.google.com/maps/search/?api=1&query=" + lati + "," + longi + "";
 
                             Intent sharingIntent = new Intent(Intent.ACTION_SEND);
                             sharingIntent.setType("text/plain");
                             sharingIntent.putExtra(Intent.EXTRA_TEXT, "This message is from application under testing(AUT).Application is in the stage of maturity.PLEASE IGNORE \n"
-                                    + url + "\nAddress : "+ item_selected);
-                            startActivity(Intent.createChooser(sharingIntent,"Share using"));
+                                    + url + "\nAddress : " + item_selected);
+                            startActivity(Intent.createChooser(sharingIntent, "Share using"));
                         } catch (Exception e) {
                             Toast.makeText(getApplicationContext(),
                                     "SMS failed, please try again later!",
@@ -127,20 +127,20 @@ public class DisplayStorageActivity extends AppCompatActivity {
                         }
                         break;
                     }
-                    case 1:{
-                        al=arraylist.get(position);
-                        lati= al.getLocation().getLatitude();
+                    case 1: {
+                        al = arraylist.get(position);
+                        lati = al.getLocation().getLatitude();
                         longi = al.getLocation().getLongitude();
                         Intent i = new Intent(getBaseContext(), MapsActivityRoute.class);
-                        i.putExtra("Uniqid","From_Activity_Storage");
-                        i.putExtra("lati",lati);
+                        i.putExtra("Uniqid", "From_Activity_Storage");
+                        i.putExtra("lati", lati);
                         i.putExtra("longi", longi);
                         startActivity(i);
                         finish();
                         break;
                     }
-                    case 2:{
-                        deleteItemDialog(position,arrayAdapter,item_selected);
+                    case 2: {
+                        deleteItemDialog(position, arrayAdapter, item_selected);
                         dialog.dismiss();
 //                        showDetailsDialog(position, item_selected);
                         break;
@@ -150,8 +150,9 @@ public class DisplayStorageActivity extends AppCompatActivity {
         });
         alertBuilder.show();
         AlertDialog ad = alertBuilder.create();
-       // ad.show();
+        // ad.show();
     }
+
     /*
         private void showDetailsDialog(int position, String item_selected) {
             AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
@@ -189,7 +190,7 @@ public class DisplayStorageActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 arraylist.remove(position);
-               // Toast.makeText(getBaseContext(),""+arraylist.size(),Toast.LENGTH_LONG).show();
+                // Toast.makeText(getBaseContext(),""+arraylist.size(),Toast.LENGTH_LONG).show();
                 arrayListHelper.putArray(arraylist);
                 //https://stackoverflow.com/questions/5497580/how-to-dynamically-remove-items-from-listview-on-a-button-click
                 parked_addrs.remove(position);

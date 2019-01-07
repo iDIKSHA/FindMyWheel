@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@drawable/bitmap_wall"
-    tools:context="com.example.acer.mylocationmap.DisplayStorageActivity">
+    tools:context="com.example.acer.findmywheel.DisplayStorageActivity">
 
     <ListView
         android:layout_width="match_parent"
